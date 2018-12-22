@@ -1,4 +1,4 @@
-Role Name
+vault_agent
 =========
 
 This playbook installs and configures the [Vault Agent Auto-Auth](https://www.vaultproject.io/docs/agent/autoauth/index.html) feature. 
