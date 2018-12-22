@@ -56,7 +56,7 @@ Including an example of how to use your role (for instance, with variables passe
 
     - hosts: kinnaird
       roles:
-         - role: ansible-role-vault-agent
+         - role: kmcquade.vault_agent
            vars:
              vault_role: "kinnaird"
              vault_addr: "https://vault.example.com"

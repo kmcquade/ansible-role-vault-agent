@@ -1,4 +1,5 @@
 galaxy_info:
+  role_name: vault_agent
   author: Kinnaird McQuade
   description: Installs and configures Vault Agent Auto-Auth feature.
   license: "license (BSD, MIT)"
