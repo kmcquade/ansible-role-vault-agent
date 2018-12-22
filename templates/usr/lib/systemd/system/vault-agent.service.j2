@@ -1,0 +1,22 @@
+[Unit]
+Description=Vault Agent
+Documentation=https://www.vaultproject.io/docs/agent/autoauth/index.html
+Requires=network-online.target cloud-final.service
+After=network-online.target
+
+[Service]
+User=vault
+Group=vault
+PIDFile={{ vault_pid_file }}
+EnvironmentFile={{ vault_environment_file }}
+ExecStart=/usr/bin/vault agent -config /opt/vault/agent/vault-agent.hcl
+KillMode=process
+KillSignal=SIGTERM
+Restart=on-failure
+RestartSec=5s
+PermissionsStartOnly=true
+ReadWritePaths=/opt/vault/token/
+ReadOnlyPaths=/opt/vault/token/.vault-token
+
+[Install]
+WantedBy=multi-user.target

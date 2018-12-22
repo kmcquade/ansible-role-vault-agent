@@ -1,0 +1,25 @@
+- name: Add a new group called vault
+  group:
+    name: vault
+    state: present
+    system: yes
+  tags: user
+
+- name: add user vault
+  user:
+    name: vault
+    comment: "Vault Agent service user"
+    group: vault
+    create_home: no
+    state: present
+    shell: /bin/false
+    system: true
+    uid: 60012
+  tags: user
+
+- name: Add specified user to vault group
+  user:
+    name: "{{ app_service_user }}"
+    group: vault
+    append: yes
+  when: app_service_user != ""

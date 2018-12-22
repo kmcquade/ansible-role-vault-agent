@@ -1,0 +1,29 @@
+#!/usr/bin/env ruby
+
+# TODO: Parameterize this
+PATH = "/opt/vault/token/.vault-token".freeze
+
+def main(args)
+  case args[0]
+  when "get" then get
+  when "erase" then erase
+  when "store" then store
+  else
+    puts "Unknown method #{args[0]}"
+    exit 1
+  end
+end
+
+def get
+  print File.read(PATH).strip if File.exist?(PATH)
+end
+
+def erase
+  File.delete(PATH) if File.exist?(PATH)
+end
+
+def store
+  File.open(PATH, "wb+") { |f| f.write($stdin.read.strip) }
+end
+
+main(ARGV.dup)

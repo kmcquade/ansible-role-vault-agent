@@ -1,0 +1,12 @@
+# Trust Vault CA Cert
+
+- name: Copy Vault Cert to system trust
+  copy:
+    src: "{{ vault_ca_source_path }}"
+    dest: "{{ ca_trust_path }}/vault-ca.crt" # /etc/pki/ca-trust/source/anchors/
+    mode: 0755
+    owner: root
+    group: root
+
+- name: Update CA certificates
+  command: "sudo update-ca-trust check && sudo update-ca-trust enable && {{ ca_certificates_update }}"

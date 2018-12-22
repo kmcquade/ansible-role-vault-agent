@@ -1,0 +1,12 @@
+
+- name: Add vault agent config
+  become: 'yes'
+  become_method: sudo
+  template:
+    src: opt/vault/agent/vault-agent.hcl.j2
+    dest: /opt/vault/agent/vault-agent.hcl
+    mode: 0644
+    owner: vault
+    group: vault
+  tags: config
+

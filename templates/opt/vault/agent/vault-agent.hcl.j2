@@ -1,0 +1,17 @@
+pid_file = "{{ vault_pid_file }}"
+
+auto_auth {
+  method "aws" {
+    config = {
+      type = "iam"
+      role = "{{ vault_role }}"
+      credential_poll_interval = {{ credential_poll_interval }}
+    }
+  }
+
+  sink "file" {
+    config = {
+      path = "{{ vault_token_path }}"
+    }
+  }
+}

@@ -1,0 +1,24 @@
+---
+
+- name: Add vault agent service file
+  become: 'yes'
+  become_method: sudo
+  template:
+    src: usr/lib/systemd/system/vault-agent.service.j2
+    dest: /usr/lib/systemd/system/vault-agent.service
+    mode: 0644
+    owner: vault
+    group: vault
+  tags: service
+
+- name: Add Vault environment file for the systemd service
+  become: 'yes'
+  become_method: sudo
+  template:
+    src: opt/vault/etc/vault.d/vault.sh.j2
+    dest: "{{ vault_environment_file }}" # Default: /opt/vault/etc/vault.d/vault.sh
+    mode: 0755
+    owner: vault
+    group: vault
+  tags: service
+

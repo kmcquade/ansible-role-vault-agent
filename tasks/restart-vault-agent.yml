@@ -1,0 +1,13 @@
+---
+- name: restart vault-agent
+  service:
+    name: vault-agent.service
+    state: restarted
+    enabled: true
+    daemon_reload: true
+
+# Try using this role instead:
+# https://github.com/gcoop-libre/ansible-role-ca-certificates/blob/master/tasks/main.yml
+
+- name: Update CA certificates
+  command: "{{ ca_certificates_update }}"

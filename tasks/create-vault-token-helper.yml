@@ -1,0 +1,43 @@
+- name: Add vault agent config
+  become: 'yes'
+  become_method: sudo
+  template:
+    src: opt/vault/token-helper.rb.j2
+    dest: /opt/vault/token-helper.rb
+    mode: 0755
+    owner: vault
+    group: vault
+  tags: helper
+
+- name: Add Vault environment file for bash execution
+  become: 'yes'
+  become_method: sudo
+  template:
+    src: etc/profile.d/vault.sh.j2
+    dest: /etc/profile.d/vault.sh # Default: /opt/vault/etc/vault.d/vault.sh
+    mode: 0755
+    owner: vault
+    group: vault
+  tags: helper
+
+# https://www.hashicorp.com/blog/building-a-vault-token-helper
+- name: Add vault token helper pointer
+  become_method: sudo
+  template:
+    src: .vault.j2
+    dest: /root/.vault # Default: /opt/vault/etc/vault.d/vault.sh
+    mode: 0640
+  tags: helper
+
+- name: Add vault token helper pointer for service user specific to app
+  become_method: sudo
+  template:
+    src: .vault.j2
+    dest: /{{ item }}/.vault # Default: /opt/vault/etc/vault.d/vault.sh
+    mode: 0750
+    owner: vault
+    group: vault
+  loop:
+    - "{{ app_service_user }}"
+  when: app_service_user is defined
+  tags: helper

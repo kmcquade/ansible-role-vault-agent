@@ -1,0 +1,16 @@
+---
+# tasks file for ansible-role-vault-agent
+
+- include_tasks: create-vault-user.yml
+
+- include_tasks: install-vault.yml
+
+- include_tasks: create-vault-agent-service.yml
+
+- include_tasks: create-vault-agent-config.yml
+
+- include_tasks: configure-vault-cert.yml
+
+- include_tasks: create-vault-token-helper.yml
+
+- include_tasks: restart-vault-agent.yml

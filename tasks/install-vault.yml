@@ -1,0 +1,50 @@
+- name: Download file with check (sha256)
+  get_url:
+    url: https://releases.hashicorp.com/vault/{{ vault_version }}/vault_{{ vault_version }}_linux_amd64.zip
+    dest: /tmp
+    checksum: sha256:https://releases.hashicorp.com/vault/{{ vault_version }}/vault_{{ vault_version }}_SHA256SUMS
+
+- name: Extract Vault zip file into /usr/bin
+  unarchive:
+    src: "/tmp/vault_{{ vault_version }}_linux_amd64.zip"
+    dest: /usr/bin
+    creates: /usr/bin/vault
+  tags: install
+
+- name: Set vault file attributes
+  file:
+    path: /usr/bin/vault
+    owner: root
+    group: root
+    mode: 0755
+  tags: install
+
+# Create Vault config directory
+
+- name: Create Vault config directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: 0755
+    owner: vault
+    group: vault
+  with_items:
+    - /etc/vault.d
+    - /opt/vault/data
+    - /opt/vault/agent
+    - /opt/vault/var/run
+    - /opt/vault/tls
+    - /opt/vault/log
+    - /opt/vault/etc/vault.d
+  tags: install
+
+- name: Create Vault config directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: 750
+    owner: vault
+    group: vault
+  with_items:
+    - /opt/vault/token
+  tags: install
